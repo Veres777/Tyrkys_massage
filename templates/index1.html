@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Tyrkys masáže – Jemnost, která vychází z vědomé péče</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
+<body>
+
+<!-- Navigace -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">Tyrkys masáže</div>
+    <ul class="nav-links">
+      <li><a href="#uvod">Úvod</a></li>
+      <li><a href="#filozofie">Filozofie</a></li>
+      <li><a href="#sluzby">Služby</a></li>
+      <li><a href="#proc">O mně</a></li>
+      <li><a href="#rezervace-form">Rezervace</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="uvod">
+  <div class="hero-overlay" data-aos="fade-up">
+    <h1 class="hero-title">Tyrkys masáže</h1>
+    <p class="hero-slogan">Jemnost, která vychází z vědomé péče.</p>
+    <a href="#rezervace-form" class="hero-btn">🌸 Chci si rezervovat termín</a>
+  </div>
+</header>
+
+<section class="section center-text" id="filozofie" data-aos="fade-up">
+  <h2>Více než masáž</h2>
+  <p class="text">V Tyrkys masážích se každý dotek stává rituálem. Věříme, že péče není luxus, ale přirozená potřeba – a každá žena si zaslouží pocit, že se o ni někdo stará. V jemnosti je síla.</p>
+</section>
+
+<section class="section" id="sluzby" data-aos="fade-up">
+  <h2>Nabídka masáží</h2>
+  <div class="service-grid">
+    <div class="service-box" style="background-image: url('/static/woman-receiving-belly-massage-spa-salon.jpg');" data-aos="zoom-in" data-aos-delay="100">
+      <div class="service-box-content">
+        <h3>Lymfatická masáž</h3>
+        <p>60 min – 1000 Kč<br>90 min – 1500 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/massage-2441746.jpg');" data-aos="zoom-in" data-aos-delay="200">
+      <div class="service-box-content">
+        <h3>Sportovní masáž</h3>
+        <p>30 min – 600 Kč<br>60 min – 1000 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/close-up-therapist-massaging-back.jpg');" data-aos="zoom-in" data-aos-delay="300">
+      <div class="service-box-content">
+        <h3>Klasická relaxace</h3>
+        <p>30 min – 600 Kč<br>60 min – 1000 Kč<br>90 min – 1500 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/pexels-koolshooters-6628612.jpg');" data-aos="zoom-in" data-aos-delay="400">
+      <div class="service-box-content">
+        <h3>Regenerační masáž</h3>
+        <p>60 min – 1000 Kč<br>90 min – 1500 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/pexels-jonathanborba-27684608.jpg');" data-aos="zoom-in" data-aos-delay="500">
+      <div class="service-box-content">
+        <h3>Baňková masáž</h3>
+        <p>30 min – 600 Kč<br>60 min – 1000 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/pexels-tima-miroshnichenko-6187847.jpg');" data-aos="zoom-in" data-aos-delay="600">
+      <div class="service-box-content">
+        <h3>Medová masáž</h3>
+        <p>30 min – 700 Kč<br>60 min – 1200 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/pexels-olia-danilevich-9335966.jpg');" data-aos="zoom-in" data-aos-delay="700">
+      <div class="service-box-content">
+        <h3>Masáž hlavy a dekoltu</h3>
+        <p>30 min – 600 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/unrecognizable-therapist-performing-maderotherapy-woman-s-legs-massage-treatment-spa.jpg');" data-aos="zoom-in" data-aos-delay="800">
+      <div class="service-box-content">
+        <h3>Anticelulitidová masáž</h3>
+        <p>60 min – 1000 Kč</p>
+      </div>
+    </div>
+    <div class="service-box" style="background-image: url('/static/pexels-jonathanborba-19641816.jpg');" data-aos="zoom-in" data-aos-delay="900">
+      <div class="service-box-content">
+        <h3>Relaxační masáž s kokosovým olejem</h3>
+        <p>60 min – 1200 Kč</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section center-text" id="proc" data-aos="fade-up">
+  <h2>Proč právě Tyrkys masáže</h2>
+  <p class="text">Masáž není jen pro úlévu – je to chvíle, kdy svět zpomalí a člověk znovu najde rovnováhu. Každé tělo si zaslouží vědomou péči.</p>
+</section>
+
+
+<section class="upozorneni-box" data-aos="fade-up">
+  <div class="upozorneni-content">
+    <span class="ikona">⚠️</span>
+    <p>
+      <strong>Upozornění:</strong><br>
+      Masážní studio Tyrkys masáže <strong>nenabízí erotické masáže</strong> ani žádné sexuální služby.
+      Prosíme o respektování této skutečnosti. Děkujeme za pochopení.
+    </p>
+  </div>
+</section>
+
+<section class="section center-text" id="adresa" data-aos="fade-up">
+  <h2>Kde nás najdete</h2>
+  <p class="text"><strong>Polská 12, Praha 2, PSČ 120 00</strong></p>
+  <div id="mapa"></div>
+  <div style="margin-top:30px;">
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=driving" class="cta-button" target="_blank">🚗 Autem</a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=transit" class="cta-button" target="_blank">🚋 MHD</a>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=walking" class="cta-button" target="_blank">🚶 Pěšky</a>
+  </div>
+</section>
+<section class="section" id="rezervace">
+  <h2 class="center-text">Rezervace termínu</h2>
+
+  <div class="form-wrapper">
+    <form id="rezervace-form">
+      <label for="jmeno">Jméno:</label>
+      <input type="text" id="jmeno" name="jmeno" required>
+
+      <label for="telefon">Telefon:</label>
+      <input type="tel" id="telefon" name="telefon" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="typ-masaze">Typ masáže:</label>
+      <select id="typ-masaze" name="typ-masaze" required>
+  <option value="">-- Vyberte masáž --</option>
+  <option value="klasicka-30" data-cena="600" data-delka="30">Klasická relaxační – 30 min (600 Kč)</option>
+  <option value="klasicka-60" data-cena="1000" data-delka="60">Klasická relaxační – 60 min (1000 Kč)</option>
+  <option value="klasicka-90" data-cena="1500" data-delka="90">Klasická relaxační – 90 min (1500 Kč)</option>
+  <option value="lymfa-60" data-cena="1000" data-delka="60">Lymfatická – 60 min (1000 Kč)</option>
+  <option value="lymfa-90" data-cena="1500" data-delka="90">Lymfatická – 90 min (1500 Kč)</option>
+  <option value="sportovni-30" data-cena="600" data-delka="30">Sportovní – 30 min (600 Kč)</option>
+  <option value="sportovni-60" data-cena="1000" data-delka="60">Sportovní – 60 min (1000 Kč)</option>
+  <option value="regeneracni-60" data-cena="1000" data-delka="60">Regenerační – 60 min (1000 Kč)</option>
+  <option value="regeneracni-90" data-cena="1500" data-delka="90">Regenerační – 90 min (1500 Kč)</option>
+  <option value="bankova-30" data-cena="600" data-delka="30">Baňková – 30 min (600 Kč)</option>
+  <option value="bankova-60" data-cena="1000" data-delka="60">Baňková – 60 min (1000 Kč)</option>
+  <option value="medova-30" data-cena="700" data-delka="30">Medová – 30 min (700 Kč)</option>
+  <option value="medova-60" data-cena="1200" data-delka="60">Medová – 60 min (1200 Kč)</option>
+  <option value="hlava-30" data-cena="600" data-delka="30">Hlava a dekolt – 30 min (600 Kč)</option>
+  <option value="celulitida-60" data-cena="1000" data-delka="60">Anticelulitidová – 60 min (1000 Kč)</option>
+  <option value="kokos-60" data-cena="1200" data-delka="60">Kokosový olej – 60 min (1200 Kč)</option>
+  <option value="lavove-90" data-cena="1700" data-delka="90">Lávové kameny – 90 min (1700 Kč)</option>
+</select>
+
+
+ <label for="datum">Datum:</label>
+      <input type="text" id="datum" name="datum" placeholder="Vyberte datum" required>
+
+      <label for="cas">Čas:</label>
+      <select id="cas" name="cas" required>
+        <option value="">Nejprve vyberte datum</option>
+      </select>
+
+      <div id="cena-zobrazena"></div>
+      <div id="platba-box" style="display: none;">
+        <div id="payment-element"></div>
+        <button id="pay-button">Zaplatit</button>
+      </div>
+
+      <button type="submit">Pokračovat k platbě</button>
+    </form>
+  </div>
+</section>
+
+<section class="section center-text" id="kontakt" data-aos="fade-up">
+  <h2>Kontakt</h2>
+  <p>Pro rezervaci termínu mě prosím kontaktujte:</p>
+  <p><strong>Telefon:</strong> +420 123 456 789</p>
+  <p><strong>Email:</strong> info@tyrkysmasaze.cz</p>
+</section>
+
+<footer class="footer">
+  &copy; 2025 Tyrkys masáže &nbsp;|&nbsp; Jemnost, která vychází z vědomé péče
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    flatpickr("#datum", {
+    locale: "cs",            // 🇨🇿 чешская локализация
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    weekNumbers: true,
+    defaultDate: null,
+    disable: [
+      function(date) {
+        // Блокируем субботу и воскресенье (6 - sobota, 0 - neděle)
+        return (date.getDay() === 6 || date.getDay() === 0);
+      }
+    ],
+    onDayCreate: function(dObj, dStr, fp, dayElem) {
+      const date = dayElem.dateObj;
+      const den = date.getDay();
+
+      if (den === 6) {
+        dayElem.classList.add("sobota");
+      } else if (den === 0) {
+        dayElem.classList.add("nedele");
+      }
+    },
+    onChange: function(selectedDates, dateStr, instance) {
+      const den = selectedDates[0].getDay();
+      const casSelect = document.getElementById("cas");
+
+      // Очистить select и вставить сообщение
+      casSelect.innerHTML = "";
+
+      if (den === 6) {
+        const opt = document.createElement("option");
+        opt.text = "Sobota pouze po domluvě";
+        opt.disabled = true;
+        opt.selected = true;
+        casSelect.appendChild(opt);
+      } else if (den === 0) {
+        const opt = document.createElement("option");
+        opt.text = "Neděle – zavřeno";
+        opt.disabled = true;
+        opt.selected = true;
+        casSelect.appendChild(opt);
+      }
+    }
+  });
+    document.getElementById("datum").addEventListener("change", function () {
+    const datum = this.value;
+    const typ = document.getElementById("typ-masaze");
+    const option = typ.selectedOptions[0];
+    const delka = option ? parseInt(option.getAttribute("data-delka")) : 0;
+
+    const vybranyDen = new Date(datum).getDay(); // 0 = neděle, 6 = sobota
+    const casSelect = document.getElementById("cas");
+    casSelect.innerHTML = "";
+
+    if (vybranyDen === 0) {
+      const opt = document.createElement("option");
+      opt.text = "Neděle – zavřeno";
+      opt.disabled = true;
+      opt.selected = true;
+      casSelect.appendChild(opt);
+      return;
+    }
+
+    if (vybranyDen === 6) {
+      const opt = document.createElement("option");
+      opt.text = "Sobota – pouze po domluvě";
+      opt.disabled = true;
+      opt.selected = true;
+      casSelect.appendChild(opt);
+      return;
+    }
+
+    if (!datum || !delka) return;
+
+    fetch("/volne-casy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ datum, delka })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.cas || data.cas.length === 0) {
+        const opt = document.createElement("option");
+        opt.text = "Žádné volné časy";
+        opt.disabled = true;
+        opt.selected = true;
+        casSelect.appendChild(opt);
+        return;
+      }
+
+      data.cas.forEach(cas => {
+        const opt = document.createElement("option");
+        opt.value = cas;
+        opt.text = cas;
+        casSelect.appendChild(opt);
+      });
+    });
+  });
+
+  // 2. Zobrazení ceny podle typu masáže
+  document.getElementById("typ-masaze").addEventListener("change", function () {
+    const option = this.selectedOptions[0];
+    const cena = option.getAttribute("data-cena");
+    document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
+  });
+
+  // 3. Stripe platba
+  const stripe = Stripe("pk_test_TVOJ_PUBLIC_KEY"); // ZAMĚNIT na vlastní
+
+  async function handlePayment() {
+    const formData = new FormData(document.querySelector('#rezervace-form'));
+    const data = Object.fromEntries(formData.entries());
+
+    const res = await fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const { clientSecret } = await res.json();
+    const elements = stripe.elements();
+    const paymentElement = elements.create('payment');
+    paymentElement.mount('#payment-element');
+
+    document.querySelector('#platba-box').style.display = 'block';
+
+    document.getElementById('pay-button').addEventListener('click', async () => {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin + "/platba-uspesna"
+        }
+      });
+
+      if (error) alert(error.message);
+    });
+  }
+
+  // 4. Odeslání formuláře → spuštění platby
+  document.getElementById('rezervace-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    handlePayment();
+  });
+</script>
+
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
+
+<script>
+  flatpickr("#datum", {
+    locale: "cs",
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    weekNumbers: true,
+    disable: [
+      function(date) {
+        return (date.getDay() === 6 || date.getDay() === 0); // Sobota a neděle blokované
+      }
+    ],
+    onDayCreate: function(dObj, dStr, fp, dayElem) {
+      const date = dayElem.dateObj;
+      const den = date.getDay();
+      if (den === 6) dayElem.classList.add("sobota");
+      if (den === 0) dayElem.classList.add("nedele");
+    },
+    onChange: function(selectedDates, dateStr) {
+      const den = selectedDates[0].getDay();
+      const casSelect = document.getElementById("cas");
+      casSelect.innerHTML = "";
+
+      if (den === 6) {
+        showPopup("Sobota pouze po domluvě.");
+        casSelect.innerHTML = '<option disabled selected>Sobota pouze po domluvě</option>';
+        return;
+      }
+      if (den === 0) {
+        showPopup("Neděle – zavřeno.");
+        casSelect.innerHTML = '<option disabled selected>Neděle – zavřeno</option>';
+        return;
+      }
+
+      const typ = document.getElementById("typ-masaze");
+      const option = typ.selectedOptions[0];
+      const delka = option ? parseInt(option.getAttribute("data-delka")) : 0;
+
+      if (!dateStr || !delka) return;
+
+      fetch("/volne-casy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ datum: dateStr, delka })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.cas || data.cas.length === 0) {
+          casSelect.innerHTML = '<option disabled selected>Žádné volné časy</option>';
+          return;
+        }
+
+        data.cas.forEach(cas => {
+          const opt = document.createElement("option");
+          opt.value = cas;
+          opt.text = cas;
+          casSelect.appendChild(opt);
+        });
+      });
+    }
+  });
+
+  document.getElementById("typ-masaze").addEventListener("change", function () {
+    const option = this.selectedOptions[0];
+    const cena = option.getAttribute("data-cena");
+    document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
+  });
+
+  const stripe = Stripe("pk_test_TVOJ_PUBLIC_KEY");
+
+  async function handlePayment() {
+    const formData = new FormData(document.querySelector('#rezervace-form'));
+    const data = Object.fromEntries(formData.entries());
+
+    const res = await fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const { clientSecret } = await res.json();
+    const elements = stripe.elements();
+    const paymentElement = elements.create('payment');
+    paymentElement.mount('#payment-element');
+
+    document.querySelector('#platba-box').style.display = 'block';
+
+    document.getElementById('pay-button').addEventListener('click', async () => {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin + "/platba-uspesna"
+        }
+      });
+
+      if (error) alert(error.message);
+    });
+  }
+
+  document.getElementById('rezervace-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    handlePayment();
+  });
+
+  function showPopup(zprava) {
+    let popup = document.getElementById("rez-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.id = "rez-popup";
+      popup.style.position = "fixed";
+      popup.style.top = "20px";
+      popup.style.left = "50%";
+      popup.style.transform = "translateX(-50%)";
+      popup.style.background = "#ffdddd";
+      popup.style.color = "#333";
+      popup.style.padding = "12px 20px";
+      popup.style.border = "1px solid #ff7777";
+      popup.style.borderRadius = "8px";
+      popup.style.zIndex = "9999";
+      popup.style.fontSize = "16px";
+      popup.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+      document.body.appendChild(popup);
+    }
+
+    popup.innerText = zprava;
+    popup.style.display = "block";
+    setTimeout(() => popup.style.display = "none", 3500);
+  }
+</script>
+
+<div id="den-alert" class="den-popup" style="display: none;">
+  <span id="den-alert-text"></span>
+</div>

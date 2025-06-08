@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Přihlášení – Ivanna Care</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 60px auto;
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4e3b3b;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .login-container button:hover {
+      background-color: #7c5d5d;
+    }
+
+    .message {
+      text-align: center;
+      color: red;
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+      .login-container {
+        margin: 30px 15px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Přihlášení</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('login') }}">
+      <input type="text" name="username" placeholder="Uživatelské jméno" required>
+      <input type="password" name="password" placeholder="Heslo" required>
+      <button type="submit">Přihlásit se</button>
+    </form>
+  </div>
+
+</body>
+</html>

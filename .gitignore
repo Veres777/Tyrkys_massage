@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+.env
+venv/
+.venv/
+
+# OS / Editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs and artifacts
+*.log
+*.sqlite3
+*.db
+*.zip
+*.bak
+
+# Bytecode and temp
+*.tmp
+*.temp
+*.cache
+
+# PDF faktury
+faktury/
+
