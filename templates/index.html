@@ -145,29 +145,28 @@
       <input type="email" id="email" name="email" required>
 
       <label for="typ-masaze">Typ masáže:</label>
-      <select id="typ-masaze" name="typ-masaze" required>
-  <option value="">-- Vyberte masáž --</option>
-  <option value="klasicka-30" data-cena="600" data-delka="30">Klasická relaxační – 30 min (600 Kč)</option>
-  <option value="klasicka-60" data-cena="1000" data-delka="60">Klasická relaxační – 60 min (1000 Kč)</option>
-  <option value="klasicka-90" data-cena="1500" data-delka="90">Klasická relaxační – 90 min (1500 Kč)</option>
-  <option value="lymfa-60" data-cena="1000" data-delka="60">Lymfatická – 60 min (1000 Kč)</option>
-  <option value="lymfa-90" data-cena="1500" data-delka="90">Lymfatická – 90 min (1500 Kč)</option>
-  <option value="sportovni-30" data-cena="600" data-delka="30">Sportovní – 30 min (600 Kč)</option>
-  <option value="sportovni-60" data-cena="1000" data-delka="60">Sportovní – 60 min (1000 Kč)</option>
-  <option value="regeneracni-60" data-cena="1000" data-delka="60">Regenerační – 60 min (1000 Kč)</option>
-  <option value="regeneracni-90" data-cena="1500" data-delka="90">Regenerační – 90 min (1500 Kč)</option>
-  <option value="bankova-30" data-cena="600" data-delka="30">Baňková – 30 min (600 Kč)</option>
-  <option value="bankova-60" data-cena="1000" data-delka="60">Baňková – 60 min (1000 Kč)</option>
-  <option value="medova-30" data-cena="700" data-delka="30">Medová – 30 min (700 Kč)</option>
-  <option value="medova-60" data-cena="1200" data-delka="60">Medová – 60 min (1200 Kč)</option>
-  <option value="hlava-30" data-cena="600" data-delka="30">Hlava a dekolt – 30 min (600 Kč)</option>
-  <option value="celulitida-60" data-cena="1000" data-delka="60">Anticelulitidová – 60 min (1000 Kč)</option>
-  <option value="kokos-60" data-cena="1200" data-delka="60">Kokosový olej – 60 min (1200 Kč)</option>
-  <option value="lavove-90" data-cena="1700" data-delka="90">Lávové kameny – 90 min (1700 Kč)</option>
-</select>
+      <select id="typ-masaze" name="typ" required>
+        <option value="">-- Vyberte masáž --</option>
+        <option value="klasicka-30" data-cena="600" data-delka="30">Klasická relaxační – 30 min (600 Kč)</option>
+        <option value="klasicka-60" data-cena="1000" data-delka="60">Klasická relaxační – 60 min (1000 Kč)</option>
+        <option value="klasicka-90" data-cena="1500" data-delka="90">Klasická relaxační – 90 min (1500 Kč)</option>
+        <option value="lymfa-60" data-cena="1000" data-delka="60">Lymfatická – 60 min (1000 Kč)</option>
+        <option value="lymfa-90" data-cena="1500" data-delka="90">Lymfatická – 90 min (1500 Kč)</option>
+        <option value="sportovni-30" data-cena="600" data-delka="30">Sportovní – 30 min (600 Kč)</option>
+        <option value="sportovni-60" data-cena="1000" data-delka="60">Sportovní – 60 min (1000 Kč)</option>
+        <option value="regeneracni-60" data-cena="1000" data-delka="60">Regenerační – 60 min (1000 Kč)</option>
+        <option value="regeneracni-90" data-cena="1500" data-delka="90">Regenerační – 90 min (1500 Kč)</option>
+        <option value="bankova-30" data-cena="600" data-delka="30">Baňková – 30 min (600 Kč)</option>
+        <option value="bankova-60" data-cena="1000" data-delka="60">Baňková – 60 min (1000 Kč)</option>
+        <option value="medova-30" data-cena="700" data-delka="30">Medová – 30 min (700 Kč)</option>
+        <option value="medova-60" data-cena="1200" data-delka="60">Medová – 60 min (1200 Kč)</option>
+        <option value="hlava-30" data-cena="600" data-delka="30">Hlava a dekolt – 30 min (600 Kč)</option>
+        <option value="celulitida-60" data-cena="1000" data-delka="60">Anticelulitidová – 60 min (1000 Kč)</option>
+        <option value="kokos-60" data-cena="1200" data-delka="60">Kokosový olej – 60 min (1200 Kč)</option>
+        <option value="lavove-90" data-cena="1700" data-delka="90">Lávové kameny – 90 min (1700 Kč)</option>
+      </select>
 
-
- <label for="datum">Datum:</label>
+      <label for="datum">Datum:</label>
       <input type="text" id="datum" name="datum" placeholder="Vyberte datum" required>
 
       <label for="cas">Čas:</label>
@@ -177,6 +176,8 @@
 
       <div id="cena-zobrazena"></div>
       <input type="hidden" id="cena" name="cena">
+      <input type="hidden" id="delka" name="delka"> <!-- ✅ Nově přidané -->
+
       <div id="platba-box" style="display: none;">
          <div id="payment-element"></div>
          <button id="pay-button">Zaplatit</button>
@@ -186,6 +187,7 @@
     </form>
   </div>
 </section>
+
 
 <section class="section center-text" id="kontakt" data-aos="fade-up">
   <h2>Kontakt</h2>
@@ -267,43 +269,52 @@
       }
     });
 
-    document.getElementById("typ-masaze").addEventListener("change", function () {
-      const option = this.selectedOptions[0];
-      const cena = option.getAttribute("data-cena");
-      document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
-      document.getElementById("cena").value = cena;
-    });
+   document.getElementById("typ-masaze").addEventListener("change", function () {
+  const option = this.selectedOptions[0];
+  const cena = option.getAttribute("data-cena");
+  const delka = option.getAttribute("data-delka");
 
-    const stripe = Stripe("pk_test_TVOJ_PUBLIC_KEY");
+  document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
+  document.getElementById("cena").value = cena;
+  document.getElementById("delka").value = delka; // ✅ přidáno
+});
+
+    const stripe = Stripe("pk_test_51RXQROB0S949aQzWGBEQAFJ41YkCKxSNVzByD1TpQ42oFv5C6t5gqUDiCmJ0ccS49bYJidZJch9ydXLd8jeGNbR100VikvXrPU");
 
     async function handlePayment() {
-      const formData = new FormData(document.querySelector('#rezervace-form'));
-      const data = Object.fromEntries(formData.entries());
+  const formData = new FormData(document.querySelector('#rezervace-form'));
+  const data = Object.fromEntries(formData.entries());
 
-      const res = await fetch('/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+  if (!data.typ) {
+    alert("Prosím vyberte typ masáže.");
+    return;
+  }
 
-      const { clientSecret } = await res.json();
-      const elements = stripe.elements();
-      const paymentElement = elements.create('payment');
-      paymentElement.mount('#payment-element');
+  const res = await fetch('/create-payment-intent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
 
-      document.querySelector('#platba-box').style.display = 'block';
+  const { clientSecret } = await res.json();
 
-      document.getElementById('pay-button').addEventListener('click', async () => {
-        const { error } = await stripe.confirmPayment({
-          elements,
-          confirmParams: {
-            return_url: window.location.origin + "/platba-uspesna"
-          }
-        });
+  const elements = stripe.elements({ clientSecret }); // ✅ ключевой момент
+  const paymentElement = elements.create('payment');
+  paymentElement.mount('#payment-element');
 
-        if (error) alert(error.message);
-      });
-    }
+  document.querySelector('#platba-box').style.display = 'block';
+
+  document.getElementById('pay-button').addEventListener('click', async () => {
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: window.location.origin + "/platba-uspesna"
+      }
+    });
+
+    if (error) alert(error.message);
+  });
+}
 
     document.getElementById('rezervace-form').addEventListener('submit', function (e) {
       e.preventDefault();

@@ -11,8 +11,9 @@ import os
 import re
 
 load_dotenv()
-app = Flask(__name__)
 
+app = Flask(__name__)
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
@@ -25,7 +26,7 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
 ADMIN_PASSWORD_HASH = os.getenv('ADMIN_PASSWORD_HASH')
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
 
 # Vytvoření potřebných složek
 os.makedirs('faktury', exist_ok=True)
@@ -69,7 +70,7 @@ def rezervace():
 @app.route('/create-payment-intent', methods=['POST'])
 def create_payment():
     data = request.get_json()
-    amount = int(data['cena']) * 100  # В копейках
+    amount = int(data['cena']) * 100  # cena в Kč, Stripe принимает в haléřích
 
     intent = stripe.PaymentIntent.create(
         amount=amount,
