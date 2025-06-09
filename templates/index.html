@@ -12,15 +12,79 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
+<style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #8B5D67;
+    }
+    .navbar .logo span {
+      color: #C89BA3;
+    }
+    .menu {
+      display: flex;
+      gap: 24px;
+    }
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .menu a:hover {
+      color: #C89BA3;
+    }
+    .burger {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 24px;
+        background-color: #fff;
+        border: 1px solid #eee;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 12px;
+        z-index: 1001;
+      }
+      .menu.show {
+        display: flex;
+      }
+      .burger {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Navigace -->
-<nav class="navbar">
+<header class="navbar">
   <div class="nav-container">
-    <div class="logo">Tyrkys masáže</div>
-    <ul class="nav-links">
+    <div class="logo">Tyrkys <span>masáže</span></div>
+    <button class="burger" id="burger">&#9776;</button>
+    <ul class="menu" id="menu">
       <li><a href="#uvod">Úvod</a></li>
       <li><a href="#filozofie">Filozofie</a></li>
       <li><a href="#sluzby">Služby</a></li>
@@ -28,7 +92,7 @@
       <li><a href="#rezervace-form">Rezervace</a></li>
     </ul>
   </div>
-</nav>
+</header>
 
 <header class="hero" id="uvod">
   <div class="hero-overlay" data-aos="fade-up">
@@ -123,13 +187,17 @@
 <section class="section center-text" id="adresa" data-aos="fade-up">
   <h2>Kde nás najdete</h2>
   <p class="text"><strong>Polská 12, Praha 2, PSČ 120 00</strong></p>
-  <div id="mapa"></div>
+
+  <div id="mapa" style="width: 100%; height: 400px; margin: 0 auto;"></div>
+
   <div style="margin-top:30px;">
     <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=driving" class="cta-button" target="_blank">🚗 Autem</a>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=transit" class="cta-button" target="_blank">🚋 MHD</a>
     <a href="https://www.google.com/maps/dir/?api=1&destination=Polská+12,+Praha+2,+120+00&travelmode=walking" class="cta-button" target="_blank">🚶 Pěšky</a>
   </div>
 </section>
+
+
 <section class="section" id="rezervace">
   <h2 class="center-text">Rezervace termínu</h2>
 
@@ -192,8 +260,8 @@
 <section class="section center-text" id="kontakt" data-aos="fade-up">
   <h2>Kontakt</h2>
   <p>Pro rezervaci termínu mě prosím kontaktujte:</p>
-  <p><strong>Telefon:</strong> +420 123 456 789</p>
-  <p><strong>Email:</strong> info@tyrkysmasaze.cz</p>
+  <p><strong>Telefon:</strong> +420 608 639 637</p>
+  <p><strong>Email:</strong> ivannalukovets1987@gmail.com</p>
 </section>
 
 <div id="den-alert" class="den-popup" style="display: none;">
@@ -203,7 +271,11 @@
 <footer class="footer">
   &copy; 2025 Tyrkys masáže &nbsp;|&nbsp; Jemnost, která vychází z vědomé péče
 </footer>
-
+<script>
+  document.getElementById("burger").addEventListener("click", function () {
+    document.getElementById("menu").classList.toggle("show");
+  });
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -347,7 +419,24 @@
     }
   });
 </script>
+      <script>
+  function initMap() {
+    const tyrkys = { lat: 50.07829, lng: 14.44210 }; // Polská 12
 
+    const mapa = new google.maps.Map(document.getElementById("mapa"), {
+      center: tyrkys,
+      zoom: 15
+    });
+
+    new google.maps.Marker({
+      position: tyrkys,
+      map: mapa,
+      title: "Tyrkys masáže"
+    });
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlitDAUiJF1vSEt7ReiHvTNX9VzGxtPuo&callback=initMap" async defer></script>
 
 </body>
 </html>
