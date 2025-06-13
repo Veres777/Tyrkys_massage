@@ -36,6 +36,10 @@
     .navbar .logo span {
       color: #C89BA3;
     }
+    .navbar .logo {
+      margin-right: 32px;
+    }
+
     .menu {
       display: flex;
       gap: 24px;
@@ -244,14 +248,14 @@
 
       <div id="cena-zobrazena"></div>
       <input type="hidden" id="cena" name="cena">
-      <input type="hidden" id="delka" name="delka"> <!-- ✅ Nově přidané -->
+      <input type="hidden" id="delka" name="delka">
+      <button type="button" id="start-payment">Zaplatit</button>
 
       <div id="platba-box" style="display: none;">
-         <div id="payment-element"></div>
-         <button id="pay-button">Zaplatit</button>
+          <div id="payment-request-button" style="display:none;"></div>
+          <div id="payment-element"></div>
+          <button id="pay-button">Zaplatit</button>
       </div>
-
-      <button type="submit">Pokračovat k platbě</button>
     </form>
   </div>
 </section>
@@ -267,6 +271,7 @@
 <div id="den-alert" class="den-popup" style="display: none;">
   <span id="den-alert-text"></span>
 </div>
+<div id="stripe-key" style="display:none;">{{ stripe_key }}</div>
 
 <footer class="footer">
   &copy; 2025 Tyrkys masáže &nbsp;|&nbsp; Jemnost, která vychází z vědomé péče
@@ -276,148 +281,175 @@
     document.getElementById("menu").classList.toggle("show");
   });
 </script>
-
+// ✅ Обновлённый скрипт с одной кнопкой "Zaplatit" и Apple Pay / Google Pay
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    AOS.init({ duration: 800, once: true });
+document.addEventListener("DOMContentLoaded", function () {
+  AOS.init({ duration: 800, once: true });
+  document.getElementById("start-payment").addEventListener("click", handlePayment);
 
-    flatpickr("#datum", {
-      locale: "cs",
-      dateFormat: "Y-m-d",
-      minDate: "today",
-      weekNumbers: true,
-      disable: [
-        function(date) {
-          return (date.getDay() === 6 || date.getDay() === 0); // Sobota a neděle blokované
-        }
-      ],
-      onDayCreate: function(dObj, dStr, fp, dayElem) {
-        const date = dayElem.dateObj;
-        const den = date.getDay();
-        if (den === 6) dayElem.classList.add("sobota");
-        if (den === 0) dayElem.classList.add("nedele");
-      },
-      onChange: function(selectedDates, dateStr) {
-        const den = selectedDates[0].getDay();
-        const casSelect = document.getElementById("cas");
-        casSelect.innerHTML = "";
 
-        if (den === 6) {
-          showPopup("Sobota pouze po domluvě.");
-          casSelect.innerHTML = '<option disabled selected>Sobota pouze po domluvě</option>';
+  flatpickr("#datum", {
+    locale: "cs",
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    weekNumbers: true,
+    disable: [
+      function(date) {
+        return (date.getDay() === 6 || date.getDay() === 0);
+      }
+    ],
+    onDayCreate: function(dObj, dStr, fp, dayElem) {
+      const date = dayElem.dateObj;
+      const den = date.getDay();
+      if (den === 6) dayElem.classList.add("sobota");
+      if (den === 0) dayElem.classList.add("nedele");
+    },
+    onChange: function(selectedDates, dateStr) {
+      const den = selectedDates[0].getDay();
+      const casSelect = document.getElementById("cas");
+      casSelect.innerHTML = "";
+
+      if (den === 6) {
+        showPopup("Sobota pouze po domluvě.");
+        casSelect.innerHTML = '<option disabled selected>Sobota pouze po domluvě</option>';
+        return;
+      }
+      if (den === 0) {
+        showPopup("Neděle – zavřeno.");
+        casSelect.innerHTML = '<option disabled selected>Neděle – zavřeno</option>';
+        return;
+      }
+
+      const typ = document.getElementById("typ-masaze");
+      const option = typ.selectedOptions[0];
+      const delka = option ? parseInt(option.getAttribute("data-delka")) : 0;
+
+      if (!dateStr || !delka) return;
+
+      fetch("/volne-casy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ datum: dateStr, delka })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.cas || data.cas.length === 0) {
+          casSelect.innerHTML = '<option disabled selected>Žádné volné časy</option>';
           return;
         }
-        if (den === 0) {
-          showPopup("Neděle – zavřeno.");
-          casSelect.innerHTML = '<option disabled selected>Neděle – zavřeno</option>';
-          return;
-        }
-
-        const typ = document.getElementById("typ-masaze");
-        const option = typ.selectedOptions[0];
-        const delka = option ? parseInt(option.getAttribute("data-delka")) : 0;
-
-        if (!dateStr || !delka) return;
-
-        fetch("/volne-casy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ datum: dateStr, delka })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (!data.cas || data.cas.length === 0) {
-            casSelect.innerHTML = '<option disabled selected>Žádné volné časy</option>';
-            return;
-          }
-
-          data.cas.forEach(cas => {
-            const opt = document.createElement("option");
-            opt.value = cas;
-            opt.text = cas;
-            casSelect.appendChild(opt);
-          });
+        data.cas.forEach(cas => {
+          const opt = document.createElement("option");
+          opt.value = cas;
+          opt.text = cas;
+          casSelect.appendChild(opt);
         });
-      }
-    });
-
-   document.getElementById("typ-masaze").addEventListener("change", function () {
-  const option = this.selectedOptions[0];
-  const cena = option.getAttribute("data-cena");
-  const delka = option.getAttribute("data-delka");
-
-  document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
-  document.getElementById("cena").value = cena;
-  document.getElementById("delka").value = delka; // ✅ přidáno
-});
-
-    const stripe = Stripe("pk_test_51RXQROB0S949aQzWGBEQAFJ41YkCKxSNVzByD1TpQ42oFv5C6t5gqUDiCmJ0ccS49bYJidZJch9ydXLd8jeGNbR100VikvXrPU");
-
-    async function handlePayment() {
-  const formData = new FormData(document.querySelector('#rezervace-form'));
-  const data = Object.fromEntries(formData.entries());
-
-  if (!data.typ) {
-    alert("Prosím vyberte typ masáže.");
-    return;
-  }
-
-  const res = await fetch('/create-payment-intent', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-
-  const { clientSecret } = await res.json();
-
-  const elements = stripe.elements({ clientSecret }); // ✅ ключевой момент
-  const paymentElement = elements.create('payment');
-  paymentElement.mount('#payment-element');
-
-  document.querySelector('#platba-box').style.display = 'block';
-
-  document.getElementById('pay-button').addEventListener('click', async () => {
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: window.location.origin + "/platba-uspesna"
-      }
-    });
-
-    if (error) alert(error.message);
-  });
-}
-
-    document.getElementById('rezervace-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      handlePayment();
-    });
-
-    function showPopup(zprava) {
-      let popup = document.getElementById("rez-popup");
-      if (!popup) {
-        popup = document.createElement("div");
-        popup.id = "rez-popup";
-        popup.style.position = "fixed";
-        popup.style.top = "20px";
-        popup.style.left = "50%";
-        popup.style.transform = "translateX(-50%)";
-        popup.style.background = "#ffdddd";
-        popup.style.color = "#333";
-        popup.style.padding = "12px 20px";
-        popup.style.border = "1px solid #ff7777";
-        popup.style.borderRadius = "8px";
-        popup.style.zIndex = "9999";
-        popup.style.fontSize = "16px";
-        popup.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-        document.body.appendChild(popup);
-      }
-
-      popup.innerText = zprava;
-      popup.style.display = "block";
-      setTimeout(() => popup.style.display = "none", 3500);
+      });
     }
   });
+
+  document.getElementById("typ-masaze").addEventListener("change", function () {
+    const option = this.selectedOptions[0];
+    const cena = option.getAttribute("data-cena");
+    const delka = option.getAttribute("data-delka");
+
+    document.getElementById("cena-zobrazena").innerText = `Cena: ${cena} Kč`;
+    document.getElementById("cena").value = cena;
+    document.getElementById("delka").value = delka;
+  });
+
+ const stripe = Stripe(document.getElementById("stripe-key").textContent);
+
+
+  let paymentElement;
+  let prButton;
+
+  async function handlePayment() {
+    const formData = new FormData(document.querySelector('#rezervace-form'));
+    const data = Object.fromEntries(formData.entries());
+
+    if (!data.typ) {
+      alert("Prosím vyberte typ masáže.");
+      return;
+    }
+
+    const res = await fetch('/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const { clientSecret } = await res.json();
+
+    const elements = stripe.elements({ clientSecret });
+
+    // Google Pay / Apple Pay
+    const paymentRequest = stripe.paymentRequest({
+      country: 'CZ',
+      currency: 'czk',
+      total: {
+        label: 'Tyrkys masáž',
+        amount: parseInt(data.cena) * 100
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+    });
+
+    prButton = elements.create('paymentRequestButton', {
+      paymentRequest: paymentRequest,
+    });
+
+    paymentRequest.canMakePayment().then(result => {
+      if (result) {
+        document.getElementById('payment-request-button').style.display = 'block';
+        prButton.mount('#payment-request-button');
+      }
+    });
+
+    paymentElement = elements.create('payment');
+    paymentElement.mount('#payment-element');
+
+    document.querySelector('#platba-box').style.display = 'block';
+  }
+
+  // Одна универсальная кнопка — запускает handlePayment() или confirm
+  document.getElementById('pay-button').addEventListener('click', async function () {
+    if (!paymentElement) {
+      await handlePayment();
+    } else {
+      const { error } = await stripe.confirmPayment({
+        elements: stripe.elements(),
+        confirmParams: {
+          return_url: window.location.origin + "/platba-uspesna"
+        }
+      });
+      if (error) alert(error.message);
+    }
+  });
+
+  function showPopup(zprava) {
+    let popup = document.getElementById("rez-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.id = "rez-popup";
+      popup.style.position = "fixed";
+      popup.style.top = "20px";
+      popup.style.left = "50%";
+      popup.style.transform = "translateX(-50%)";
+      popup.style.background = "#ffdddd";
+      popup.style.color = "#333";
+      popup.style.padding = "12px 20px";
+      popup.style.border = "1px solid #ff7777";
+      popup.style.borderRadius = "8px";
+      popup.style.zIndex = "9999";
+      popup.style.fontSize = "16px";
+      popup.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+      document.body.appendChild(popup);
+    }
+    popup.innerText = zprava;
+    popup.style.display = "block";
+    setTimeout(() => popup.style.display = "none", 3500);
+  }
+});
 </script>
       <script>
   function initMap() {
@@ -437,6 +469,5 @@
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlitDAUiJF1vSEt7ReiHvTNX9VzGxtPuo&callback=initMap" async defer></script>
-
 </body>
 </html>

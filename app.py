@@ -33,7 +33,7 @@ os.makedirs('faktury', exist_ok=True)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template("index.html", stripe_key=os.getenv("STRIPE_PUBLIC_KEY"))
 
 
 @app.route('/rezervace', methods=['POST'])
